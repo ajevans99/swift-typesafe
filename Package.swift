@@ -1,4 +1,4 @@
-// swift-tools-version: 6.4
+// swift-tools-version: 6.2
 import PackageDescription
 import CompilerPluginSupport
 
@@ -21,8 +21,8 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-http-api-proposal.git", exact: "0.2.1"),
-        .package(url: "https://github.com/swiftlang/swift-syntax.git", exact: "604.0.0"),
-        .package(url: "https://github.com/apple/swift-log.git", from: "1.15.1"),
+        .package(url: "https://github.com/swiftlang/swift-syntax.git", "603.0.0"..<"605.0.0"),
+        .package(url: "https://github.com/apple/swift-log.git", from: "1.14.0"),
     ],
     targets: [
         .macro(name: "TypeSafeMacros", dependencies: [
