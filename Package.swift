@@ -31,8 +31,13 @@ let package = Package(
         ]),
         .target(name: "TypeSafe", dependencies: [
             "TypeSafeMacros",
+            // HTTPAPIs is needed only by HTTPClientTransport. With `traits: []`, callers inject a
+            // TypeSafeTransport and avoid the proposal's unstable swift-collections requirements.
+            .product(
+                name: "HTTPAPIs", package: "swift-http-api-proposal",
+                condition: .when(traits: ["URLSession", "AsyncHTTPClient"])
+            ),
             // Depend on the backends directly: the proposal's HTTPClient product compiles both of them.
-            .product(name: "HTTPAPIs", package: "swift-http-api-proposal"),
             .product(
                 name: "URLSessionHTTPClient", package: "swift-http-api-proposal",
                 condition: .when(platforms: applePlatforms, traits: ["URLSession"])

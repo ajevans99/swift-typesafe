@@ -1,5 +1,7 @@
 import Foundation
+#if URLSession || AsyncHTTPClient
 import HTTPAPIs
+#endif
 
 // The backend is chosen by package traits so only one HTTP stack is compiled.
 // AsyncHTTPClient wins when enabled; URLSession falls back to it off Darwin (see Package.swift).
@@ -45,6 +47,7 @@ public struct HTTPClientTransport: TypeSafeTransport {
         #endif
     }
 
+    #if URLSession || AsyncHTTPClient
     public init<Client: HTTPAPIs.HTTPClient & Copyable>(
         client: Client, options: Client.RequestOptions? = nil, maximumResponseBytes: Int = 16 * 1024 * 1024
     ) {
@@ -66,6 +69,7 @@ public struct HTTPClientTransport: TypeSafeTransport {
             return RawHTTPResponse(status: result.response.status.code, headers: headers, body: result.bodyData)
         }
     }
+    #endif
 
     public func send(_ request: TransportRequest) async throws -> RawHTTPResponse { try await operation(request) }
 }
